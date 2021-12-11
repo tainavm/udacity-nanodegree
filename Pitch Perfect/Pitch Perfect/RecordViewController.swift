@@ -18,18 +18,11 @@ class RecordViewController: UIViewController, AVAudioRecorderDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        initialState()
+        isRecording(false)
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        initialState()
-    }
-    
-    // Set buttons to initial state
-    private func initialState() {
-        btStartRecording.isEnabled = true
-        btStopRecording.isEnabled = false
-        lbRecording.text = "Tap to record"
+        isRecording(false)
     }
     
     // Configure UI
