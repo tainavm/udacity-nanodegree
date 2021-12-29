@@ -101,9 +101,10 @@ class SelectImageViewController: UIViewController, UINavigationControllerDelegat
     
     // MARK: Toolbar Functions - Setup
     private func setupTopToolbar() {
-        shareItem = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(shareMeme))
         let spaceItemRight = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: self, action: nil)
         let cancelItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(cancel))
+        
+        shareItem = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(shareMeme))
         shareItem.isEnabled = false
         topToolbar.setItems([shareItem, spaceItemRight, cancelItem], animated: true)
     }
@@ -112,13 +113,13 @@ class SelectImageViewController: UIViewController, UINavigationControllerDelegat
         let cameraItem = UIBarButtonItem(barButtonSystemItem: .camera, target: self, action: #selector(takePhoto))
         let spaceItemRight = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: self, action: nil)
         let albumItem = UIBarButtonItem(title: "Album", style: .plain, target: self, action: #selector(pickImage))
+        
         // Disable camera if not availabe in device
         cameraItem.isEnabled = UIImagePickerController.isSourceTypeAvailable(.camera)
         bottomToolbar.setItems([cameraItem, spaceItemRight, albumItem], animated: true)
     }
     
     // MARK: Toolbar Actions
-    
     func saveMeme(_ generatedMeme: UIImage) {
         _ = Meme(topText: tfTop.text!, bottomText: tfBottom.text!, image: ivMeme.image!, memedImage: generatedMeme)
     }
