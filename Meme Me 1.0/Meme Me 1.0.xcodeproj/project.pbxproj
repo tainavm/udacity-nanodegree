@@ -292,6 +292,8 @@
 				DEVELOPMENT_TEAM = 975F3AS9QQ;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Meme Me 1.0/Info.plist";
+				INFOPLIST_KEY_NSCameraUsageDescription = "Take photo to use as a meme";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Choose photo from gallery";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
@@ -321,6 +323,8 @@
 				DEVELOPMENT_TEAM = 975F3AS9QQ;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Meme Me 1.0/Info.plist";
+				INFOPLIST_KEY_NSCameraUsageDescription = "Take photo to use as a meme";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Choose photo from gallery";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;

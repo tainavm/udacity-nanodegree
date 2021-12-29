@@ -4,10 +4,6 @@
 <dict>
 	<key>UIActivityTypeSaveToCameraRoll</key>
 	<string>Save photo on camera roll</string>
-	<key>NSPhotoLibraryUsageDescription</key>
-	<string>Choose photo from gallery</string>
-	<key>NSCameraUsageDescription</key>
-	<string>Take photo to use as a meme</string>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>
@@ -27,5 +23,7 @@
 			</array>
 		</dict>
 	</dict>
+	<key>UIStatusBarStyle</key>
+	<string>UIStatusBarStyleDarkContent</string>
 </dict>
 </plist>
