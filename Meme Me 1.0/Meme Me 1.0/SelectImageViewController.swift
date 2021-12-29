@@ -15,7 +15,6 @@ struct Meme {
 }
 
 // TODO
-// arrumar teclado e texto
 // limpar texto ao clicar
 
 class SelectImageViewController: UIViewController, UINavigationControllerDelegate {
@@ -63,9 +62,9 @@ class SelectImageViewController: UIViewController, UINavigationControllerDelegat
     }
     
     @objc func keyboardWillShow(_ notification:Notification) {
-        if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
-            if self.view.frame.origin.y == 0 {
-                self.view.frame.origin.y -= keyboardSize.height
+        if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue.height {
+            if tfBottom.isFirstResponder {
+                self.view.frame.origin.y = keyboardSize * -1
             }
         }
     }
@@ -139,6 +138,7 @@ class SelectImageViewController: UIViewController, UINavigationControllerDelegat
     @objc func cancel() {
         resetText()
         ivMeme.image = nil
+        shareItem.isEnabled = false
     }
     
     // Render view to an image
