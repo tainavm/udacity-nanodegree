@@ -14,9 +14,6 @@ struct Meme {
     let memedImage: UIImage
 }
 
-// TODO
-// limpar texto ao clicar
-
 class SelectImageViewController: UIViewController, UINavigationControllerDelegate {
     
     // MARK: Outlets
@@ -60,7 +57,7 @@ class SelectImageViewController: UIViewController, UINavigationControllerDelegat
         NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
     }
-    
+     
     @objc func keyboardWillShow(_ notification:Notification) {
         if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue.height {
             if tfBottom.isFirstResponder {
@@ -108,13 +105,17 @@ class SelectImageViewController: UIViewController, UINavigationControllerDelegat
     }
     
     private func setupBottomToolbar() {
-        let cameraItem = UIBarButtonItem(barButtonSystemItem: .camera, target: self, action: #selector(takePhoto))
+        let spaceItemLeft = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: self, action: nil)
+        let spaceItemMiddle = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: self, action: nil)
+        let cameraItem = UIBarButtonItem(barButtonSystemItem: .camera, target: self, action: #selector(photoAction))
         let spaceItemRight = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: self, action: nil)
-        let albumItem = UIBarButtonItem(title: "Album", style: .plain, target: self, action: #selector(pickImage))
+        let albumItem = UIBarButtonItem(title: "Album", style: .plain, target: self, action: #selector(photoAction))
         
         // Disable camera if not availabe in device
         cameraItem.isEnabled = UIImagePickerController.isSourceTypeAvailable(.camera)
-        bottomToolbar.setItems([cameraItem, spaceItemRight, albumItem], animated: true)
+        
+        cameraItem.tag = 1
+        bottomToolbar.setItems([spaceItemLeft, cameraItem, spaceItemMiddle, albumItem, spaceItemRight], animated: true)
     }
     
     // MARK: Toolbar Actions
@@ -122,6 +123,7 @@ class SelectImageViewController: UIViewController, UINavigationControllerDelegat
         _ = Meme(topText: tfTop.text!, bottomText: tfBottom.text!, image: ivMeme.image!, memedImage: generatedMeme)
     }
     
+    // Open activity
     @objc func shareMeme() {
         let meme = generateMemedImage()
         let controller = UIActivityViewController(activityItems: [meme], applicationActivities: nil)
@@ -160,6 +162,7 @@ class SelectImageViewController: UIViewController, UINavigationControllerDelegat
 
 // MARK: Image Picker Delegate
 extension SelectImageViewController: UIImagePickerControllerDelegate {
+    // Set selected image on image view
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         picker.dismiss(animated: true, completion: nil)
         if let image = info[.originalImage] as? UIImage {
@@ -168,32 +171,29 @@ extension SelectImageViewController: UIImagePickerControllerDelegate {
         }
     }
     
-    // Pick image from gallery
-    @objc func pickImage() {
+    @objc func photoAction(_ sender: UIButton) {
         let imagePicker = UIImagePickerController()
-        imagePicker.delegate = self
-        imagePicker.sourceType = .photoLibrary
-        present(imagePicker, animated: true, completion: nil)
         
-    }
-    
-    // Take photo with camera
-    @objc func takePhoto() {
-        let imagePicker = UIImagePickerController()
-        imagePicker.delegate = self
-        imagePicker.sourceType = .camera
-        present(imagePicker, animated: true, completion: nil)
+        // Switch actions depending on button click
+        switch sender.tag {
+            case 1:
+                // Take photo with camera
+                imagePicker.sourceType = .camera
+            default:
+                // Pick image from gallery
+                imagePicker.sourceType = .photoLibrary
+        }
         
+        imagePicker.delegate = self
+        present(imagePicker, animated: true, completion: nil)
     }
 }
 
 // MARK: Text Field Delegate
 extension SelectImageViewController: UITextFieldDelegate {
-    private func textViewDidBeginEditing(_ textView: UITextView) {
-        // limpar texto ao clicar
-        for text in textFields {
-            text.text = ""
-        }
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        textField.text = ""
+        
     }
     
     @objc func textFieldShouldReturn(_ textField: UITextField) -> Bool {
