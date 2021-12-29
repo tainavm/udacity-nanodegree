@@ -34,10 +34,11 @@ class SelectImageViewController: UIViewController, UINavigationControllerDelegat
     // MARK: Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupTopToolbar()
-        setupBottomToolbar()
         setupTexts()
         resetText()
+        setupTopToolbar()
+        setupBottomToolbar()
+        subscribeToKeyboardNotifications()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -62,7 +63,11 @@ class SelectImageViewController: UIViewController, UINavigationControllerDelegat
     }
     
     @objc func keyboardWillShow(_ notification:Notification) {
-        view.frame.origin.y -= getKeyboardHeight(notification)
+        if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
+            if self.view.frame.origin.y == 0 {
+                self.view.frame.origin.y -= keyboardSize.height
+            }
+        }
     }
     
     @objc func keyboardWillHide(_ notification:Notification) {
@@ -71,12 +76,6 @@ class SelectImageViewController: UIViewController, UINavigationControllerDelegat
         }
     }
     
-    func getKeyboardHeight(_ notification:Notification) -> CGFloat {
-        let userInfo = notification.userInfo
-        let keyboardSize = userInfo![UIResponder.keyboardFrameEndUserInfoKey] as! NSValue // of CGRect
-        return keyboardSize.cgRectValue.height
-    }
-     
     // MARK: Text Functions
     private func setupTexts() {
         let attributes: [NSAttributedString.Key: Any] = [
