@@ -7,13 +7,6 @@
 
 import UIKit
 
-struct Meme {
-    let topText: String
-    let bottomText: String
-    let image: UIImage
-    let memedImage: UIImage
-}
-
 class SelectImageViewController: UIViewController, UINavigationControllerDelegate {
     
     // MARK: Outlets
@@ -118,6 +111,11 @@ class SelectImageViewController: UIViewController, UINavigationControllerDelegat
         bottomToolbar.setItems([spaceItemLeft, cameraItem, spaceItemMiddle, albumItem, spaceItemRight], animated: true)
     }
     
+    private func showToolbar(_ show: Bool) {
+        topToolbar.isHidden = show
+        bottomToolbar.isHidden = show
+    }
+    
     // MARK: Toolbar Actions
     func saveMeme(_ generatedMeme: UIImage) {
         _ = Meme(topText: tfTop.text!, bottomText: tfBottom.text!, image: ivMeme.image!, memedImage: generatedMeme)
@@ -145,16 +143,14 @@ class SelectImageViewController: UIViewController, UINavigationControllerDelegat
     
     // Render view to an image
     func generateMemedImage() -> UIImage {
-        topToolbar.isHidden = true
-        bottomToolbar.isHidden = true
+        showToolbar(true)
         
         UIGraphicsBeginImageContext(self.view.frame.size)
         view.drawHierarchy(in: self.view.frame, afterScreenUpdates: true)
         let memedImage:UIImage = UIGraphicsGetImageFromCurrentImageContext()!
         UIGraphicsEndImageContext()
         
-        topToolbar.isHidden = false
-        bottomToolbar.isHidden = false
+        showToolbar(false)
         
         return memedImage
     }
